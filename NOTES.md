@@ -4,7 +4,7 @@
 
 ```bash
 # Build
-west build --build-dir /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_nrf5340dk /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal --pristine --board nrf5340dk/nrf5340/cpuapp -- -DEXTRA_DTC_OVERLAY_FILE=boards/nrf5340dk_nrf5340_cpuapp.overlay -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y -Dzephyr-ztest-emul-button-hal_DEBUG_THREAD_INFO=On
+west build --build-dir build_nrf5340dk -s . --pristine --board nrf5340dk/nrf5340/cpuapp -- -DEXTRA_DTC_OVERLAY_FILE=boards/nrf5340dk_nrf5340_cpuapp.overlay -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y -Dzephyr-ztest-emul-button-hal_DEBUG_THREAD_INFO=On
 
 # Flash
 lsusb
