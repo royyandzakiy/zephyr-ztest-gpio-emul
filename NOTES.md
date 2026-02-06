@@ -1,25 +1,6 @@
 # Running
 
-## Build & Run `root` on qemu_cortex_m3
-```bash
-west build --build-dir build_qemu -s . --pristine --board qemu_cortex_m3 -- -DEXTRA_DTC_OVERLAY_FILE="boards/qemu_cortex_m3.overlay" -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y
-west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
-```
-
-![build_qemu_m3-configuration](docs/build_qemu_m3-configuration.png)
-
-```bash
-royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
--- west build: running target run
-[0/1] To exit from QEMU enter: 'CTRL+a, x'[QEMU] CPU: cortex-m3
-qemu-system-arm: warning: nic stellaris_enet.0 has no peer
-Timer with period zero, disabling
-*** Booting nRF Connect SDK v3.2.1-d8887f6f32df ***
-*** Using Zephyr OS v4.2.99-ec78104f1569 ***
-```
-
-
-## Build & Run `root` on nrf5340dk
+## Build & Run `root` on nrf5340dk (real hardware)
 
 ```bash
 # Build
@@ -34,7 +15,23 @@ west flash -d build_nrf5340dk
 minicom -D /dev/ttyACM0 -b 115200
 ```
 
-## Build & Run `root` on native_sim
+## Build & Run `root` on qemu_cortex_m3 (hardware simulation)
+```bash
+west build --build-dir build_qemu -s . --pristine --board qemu_cortex_m3 -- -DEXTRA_DTC_OVERLAY_FILE="boards/qemu_cortex_m3.overlay" -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y
+west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
+```
+
+```bash
+royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
+-- west build: running target run
+[0/1] To exit from QEMU enter: 'CTRL+a, x'[QEMU] CPU: cortex-m3
+qemu-system-arm: warning: nic stellaris_enet.0 has no peer
+Timer with period zero, disabling
+*** Booting nRF Connect SDK v3.2.1-d8887f6f32df ***
+*** Using Zephyr OS v4.2.99-ec78104f1569 ***
+```
+
+## Build & Run `root` on native_sim (software simulation)
 
 ### Using west build
 
@@ -43,8 +40,6 @@ west build --build-dir build_native_sim -s . --pristine --board native_sim/nativ
 
 build_native_sim/zephyr-ztest-emul-button-hal/zephyr/zephyr.exe
 ```
-
-![build_native_sim-configuration](docs/build_native_sim-configuration.png)
 
 ```bash
 # Running
@@ -56,9 +51,17 @@ WARNING: Using a test - not safe - entropy source
 Stopped at 5.200s
 ```
 
+![build_qemu_m3-configuration](docs/build_qemu_m3-configuration.png)
+
+![build_native_sim-configuration](docs/build_native_sim-configuration.png)
+
+---
+
 # Testing
 
 ## Build & Run `tests/biz_logic` on native_sim
+
+The reason native_sim is used, is because the ability to use `gpio_emul` to emulate gpio input and output values. Therefore really supercharging the unit testing capability just like using fakes.
 
 ### Using Twister
 
@@ -123,70 +126,6 @@ build_tests_west/biz_logic/zephyr/zephyr.exe
 ```
 
 ```bash
-# Build
-royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ west build -s tests/biz_logic -b native_sim -d build_test -- -DEXTRA_DTC_OVERLAY_FILE=../../boards/native_sim.overlay
--- west build: generating a build system
-Loading Zephyr module(s) (Zephyr base): sysbuild_default
--- Found Python3: /home/royya/ncs/toolchains/43683a87ea/usr/local/bin/python3.12 (found suitable version "3.12.4", minimum required is "3.10") found components: Interpreter 
--- Cache files will be written to: /home/royya/.cache/zephyr
--- Found west (found suitable version "1.4.0", minimum required is "0.14.0")
--- Board: native_sim, qualifiers: native
-Parsing /home/royya/ncs/v3.2.1/zephyr/share/sysbuild/Kconfig
-Loaded configuration '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/_sysbuild/empty.conf'
-Merged configuration '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/_sysbuild/empty.conf'
-Configuration saved to '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/zephyr/.config'
-Kconfig header saved to '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/_sysbuild/autoconf.h'
--- 
-   *******************************
-   * Running CMake for biz_logic *
-   *******************************
-
-Loading Zephyr default modules (Zephyr base).
--- Application: /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/tests/biz_logic
--- CMake version: 3.21.0
--- Found Python3: /home/royya/ncs/toolchains/43683a87ea/usr/local/bin/python (found suitable version "3.12.4", minimum required is "3.10") found components: Interpreter 
--- Cache files will be written to: /home/royya/.cache/zephyr
--- Zephyr version: 4.2.99 (/home/royya/ncs/v3.2.1/zephyr)
--- Found west (found suitable version "1.4.0", minimum required is "0.14.0")
--- Board: native_sim, qualifiers: native
--- Found host-tools: zephyr 0.17.0 (/home/royya/ncs/toolchains/43683a87ea/opt/zephyr-sdk)
--- Found toolchain: host (gcc/ld)
--- Found Dtc: /home/royya/ncs/toolchains/43683a87ea/usr/bin/dtc (found suitable version "1.5.0", minimum required is "1.4.6") 
--- Found BOARD.dts: /home/royya/ncs/v3.2.1/zephyr/boards/native/native_sim/native_sim.dts
--- Found devicetree overlay: ../../boards/native_sim.overlay
--- Generated zephyr.dts: /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/zephyr.dts
--- Generated pickled edt: /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/edt.pickle
--- Generated devicetree_generated.h: /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/include/generated/zephyr/devicetree_generated.h
-Parsing /home/royya/ncs/v3.2.1/zephyr/Kconfig
-Loaded configuration '/home/royya/ncs/v3.2.1/zephyr/boards/native/native_sim/native_sim_defconfig'
-Merged configuration '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/tests/biz_logic/prj.conf'
-Merged configuration '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/.config.sysbuild'
-Configuration saved to '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/.config'
-Kconfig header saved to '/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/include/generated/zephyr/autoconf.h'
--- Found GnuLd: /usr/bin/ld.bfd (found version "2.42") 
--- The C compiler identification is GNU 13.3.0
--- The CXX compiler identification is GNU 13.3.0
--- The ASM compiler identification is GNU
--- Found assembler: /usr/bin/gcc
--- Using ccache: /home/royya/ncs/toolchains/43683a87ea/usr/bin/ccache
--- Found gen_kobject_list: /home/royya/ncs/v3.2.1/zephyr/scripts/build/gen_kobject_list.py
--- Configuring done
--- Generating done
--- Build files have been written to: /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic
--- Configuring done
--- Generating done
--- Build files have been written to: /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test
--- west build: building application
-[5/8] Performing build step for 'biz_logic'
-[1/115] Preparing syscall dependency handling
-
-[5/115] Generating include/generated/zephyr/version.h
--- Zephyr version: 4.2.99 (/home/royya/ncs/v3.2.1/zephyr), build: ncs-v3.2.1
-[113/115] Linking C executable zephyr/zephyr.elf
-Generating files from /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/zephyr.elf for board: native_sim
-[115/115] Running utility command for native_runner_executable
-[8/8] Completed 'biz_logic'
-
 # Run
 royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/zephyr.exe
 WARNING: Using a test - not safe - entropy source
