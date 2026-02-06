@@ -1,5 +1,24 @@
 # Running
 
+## Build & Run `root` on qemu_cortex_m3
+```bash
+west build --build-dir build_qemu -s . --pristine --board qemu_cortex_m3 -- -DEXTRA_DTC_OVERLAY_FILE="boards/qemu_cortex_m3.overlay" -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y
+west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
+```
+
+![build_qemu_m3-configuration](docs/build_qemu_m3-configuration.png)
+
+```bash
+royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
+-- west build: running target run
+[0/1] To exit from QEMU enter: 'CTRL+a, x'[QEMU] CPU: cortex-m3
+qemu-system-arm: warning: nic stellaris_enet.0 has no peer
+Timer with period zero, disabling
+*** Booting nRF Connect SDK v3.2.1-d8887f6f32df ***
+*** Using Zephyr OS v4.2.99-ec78104f1569 ***
+```
+
+
 ## Build & Run `root` on nrf5340dk
 
 ```bash
