@@ -6,6 +6,8 @@ This repository serves as a reference implementation for developing and testing 
 
 The core objective of this project is to showcase how **ZTest** and **GPIO Emulation** can be used to "fake" hardware inputs (such as Hall sensors and buttons) to achieve 100% test coverage of business logic without requiring physical hardware interaction.
 
+For reference, you can refer to the Zephyr Project documentation on Emulator/Simulators: [https://docs.zephyrproject.org/latest/hardware/emulator/index.html](https://docs.zephyrproject.org/latest/hardware/emulator/index.html)
+
 ## Key Features
 
 * **Decoupled Business Logic:** Implementation of logic in a standalone module (`biz_logic`) that is independent of specific hardware drivers.
