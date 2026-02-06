@@ -3,7 +3,16 @@
 ## Build & Run `root` on nrf5340dk
 
 ```bash
+# Build
 west build --build-dir /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_nrf5340dk /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal --pristine --board nrf5340dk/nrf5340/cpuapp -- -DEXTRA_DTC_OVERLAY_FILE=boards/nrf5340dk_nrf5340_cpuapp.overlay -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y -Dzephyr-ztest-emul-button-hal_DEBUG_THREAD_INFO=On
+
+# Flash
+lsusb
+ls /dev/ttyACM*
+west flash -d build_nrf5340dk
+
+# Monitor
+minicom -D /dev/ttyACM0 -b 115200
 ```
 
 ## Build & Run `root` on native_sim
@@ -15,6 +24,8 @@ west build --build-dir build_native_sim -s . --pristine --board native_sim/nativ
 
 build_native_sim/zephyr-ztest-emul-button-hal/zephyr/zephyr.exe
 ```
+
+![build_native_sim-configuration](docs/build_native_sim-configuration.png)
 
 ```bash
 # Running
@@ -33,22 +44,22 @@ Stopped at 5.200s
 ### Using Twister
 
 ```bash
-west twister -vv -n -T tests/biz_logic --outdir build_ok
+west twister -vv -n -T tests/biz_logic --outdir build_tests_twister
 ```
 
 ```bash
 # Build & Run
-royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ west twister -vv -n -T tests/biz_logic --outdir build_ok
-Keeping artifacts untouched
+royya@tuff16:~/project-coding/iot/zephyr-ztest-emul-button-hal$ west twister -vv -n -T tests/biz_logic --outdir build_tests_twister
 INFO    - Using Ninja..
 INFO    - Zephyr version: ncs-v3.2.1
 INFO    - Using 'zephyr' toolchain.
 INFO    - Selecting default platforms per testsuite scenario
 INFO    - Building initial testsuite list...
+INFO    - Writing JSON report build_tests_twister/testplan.json
 INFO    - JOBS: 20
 INFO    - Adding tasks to the queue...
 INFO    - Added initial list of jobs to queue
-INFO    - 1/1 native_sim/native         biz_logic.testing.ztest                            PASSED (native 0.011s <host>)
+INFO    - 1/1 native_sim/native         biz_logic.testing.ztest                            PASSED (native 0.008s <host>)
 INFO    -                                    biz_logic_tests.boost_mode                                                  PASSED      
 INFO    -                                    biz_logic_tests.magnet_detected                                             PASSED      
 INFO    -                                    biz_logic_tests.default_state                                               PASSED      
@@ -75,21 +86,21 @@ Summary
         ├── Blocked test cases: 0
         ├── Failed test cases: 0
         └── Errors in test cases: 0
-INFO    - 1 of 1 executed test configurations passed (100.00%), 0 built (not run), 0 failed, 0 errored, with no warnings in 13.62 seconds.
+INFO    - 1 of 1 executed test configurations passed (100.00%), 0 built (not run), 0 failed, 0 errored, with no warnings in 18.77 seconds.
 INFO    - 3 of 3 executed test cases passed (100.00%) on 1 out of total 1205 platforms (0.08%).
 INFO    - 1 test configurations executed on platforms, 0 test configurations were only built.
 INFO    - Saving reports...
-INFO    - Writing JSON report /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_ok/twister.json
-INFO    - Writing xunit report /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_ok/twister.xml...
-INFO    - Writing xunit report /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_ok/twister_report.xml...
+INFO    - Writing JSON report /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_tests_twister/twister.json
+INFO    - Writing xunit report /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_tests_twister/twister.xml...
+INFO    - Writing xunit report /home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_tests_twister/twister_report.xml...
 INFO    - Run completed
 ```
 
 ### Using west build
 
 ```bash
-west build -b native_sim -s tests/biz_logic -d build_test -- -DEXTRA_DTC_OVERLAY_FILE=../../boards/native_sim.overlay
-/home/royya/project-coding/iot/zephyr-ztest-emul-button-hal/build_test/biz_logic/zephyr/zephyr.exe
+west build -b native_sim -s tests/biz_logic -d build_tests_west -- -DEXTRA_DTC_OVERLAY_FILE=../../boards/native_sim.overlay
+build_tests_west/biz_logic/zephyr/zephyr.exe
 ```
 
 ```bash
