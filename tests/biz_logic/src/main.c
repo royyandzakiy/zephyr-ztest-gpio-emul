@@ -15,6 +15,8 @@ ZTEST_SUITE(biz_logic_tests, NULL, NULL, NULL, NULL, NULL);
 ZTEST(biz_logic_tests, test_default_state) {
     const struct device *g_dev = DEVICE_DT_GET(GPIO_EMUL_LABEL);
     
+    biz_logic_init();
+
     // Set inputs to "Idle"
     zassert_ok(gpio_emul_input_set(g_dev, 12, 0), "Failed to set Hall High");
     zassert_ok(gpio_emul_input_set(g_dev, 11, 1), "Failed to set Button High (Pullup)");
@@ -30,6 +32,8 @@ ZTEST(biz_logic_tests, test_default_state) {
  */
 ZTEST(biz_logic_tests, test_magnet_detected) {
     const struct device *g_dev = DEVICE_DT_GET(GPIO_EMUL_LABEL);
+
+    biz_logic_init();
     
     // Simulate Hall sensor going Active (High)
     gpio_emul_input_set(g_dev, 12, 1);
@@ -45,6 +49,8 @@ ZTEST(biz_logic_tests, test_magnet_detected) {
  */
 ZTEST(biz_logic_tests, test_boost_mode) {
     const struct device *g_dev = DEVICE_DT_GET(GPIO_EMUL_LABEL);
+    
+    biz_logic_init();
     
     // Magnet High, Button Low (Pressed)
     gpio_emul_input_set(g_dev, 12, 1);
