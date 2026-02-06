@@ -48,7 +48,3 @@ The recommended workflow for this project is:
 ## Documentation
 
 For a complete list of build commands, monitor configurations, and example execution output, please refer to the **[NOTES.md](https://www.google.com/search?q=./NOTES.md)** file.
-
----
-
-**Would you like me to also help you refine the `biz_logic.h` header to ensure it follows the same professional standard?**
