@@ -1,1 +1,4 @@
-build*/
+**/build**/**
+twister**/**
+.venv/**
+**/__pycache__/**
