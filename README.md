@@ -30,6 +30,8 @@ This project is configured to run on three distinct targets, each serving a spec
 2. **QEMU (`qemu_cortex_m3`):** Provides a middle-ground hardware simulation to verify architecture-specific behavior (Cortex-M3) without physical hardware.
 3. **Physical Hardware (`nrf5340dk`):** Final deployment target for real-world verification on the Nordic nRF5340 Development Kit.
 
+Note: Currenlty Native Simulation & QEMU had only successfully been tested to work on WSL/Linux (NOT on Windows)
+
 ## Getting Started
 
 To begin using this framework, ensure you have the Zephyr development environment and the nRF Connect SDK (v3.2.1 or later) installed.

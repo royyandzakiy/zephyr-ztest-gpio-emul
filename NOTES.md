@@ -16,6 +16,9 @@ minicom -D /dev/ttyACM0 -b 115200
 ```
 
 ## Build & Run `root` on qemu_cortex_m3 (hardware simulation)
+
+This currently **does NOT work on Windows** (only on WSL or Linux)
+
 ```bash
 west build --build-dir build_qemu -s . --pristine --board qemu_cortex_m3 -- -DEXTRA_DTC_OVERLAY_FILE="boards/qemu_cortex_m3.overlay" -DDEBUG_THREAD_INFO=On -DCONFIG_DEBUG_THREAD_INFO=y
 west build -d build_qemu/zephyr-ztest-emul-button-hal -t run
@@ -32,6 +35,8 @@ Timer with period zero, disabling
 ```
 
 ## Build & Run `root` on native_sim (software simulation)
+
+This currently **does NOT work on Windows** (only on WSL or Linux)
 
 ### Using west build
 
